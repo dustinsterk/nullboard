@@ -4704,6 +4704,24 @@
 			return false;
 		}
 
+		// ctrl + D for auto date insert
+		if (isNote && ev.ctrlKey && ev.keyCode  == '68')
+		{
+			var have = this.value;
+			var want = '[' + new Date().toLocaleDateString() + '] ' + have;
+			$this.val(want);
+			this.selectionStart = this.selectionEnd = pos + 2;
+			return false;
+		}
+
+		// ctrl + X to delete note
+		if (isNote && ev.ctrlKey && ev.keyCode  == '88')
+		{
+			stopEditing($this, false, false);
+			deleteNote( $(this).closest('.note') );
+			return false;
+		}
+
 		// tab
 		if (ev.keyCode == 9)
 		{
@@ -4779,7 +4797,7 @@
 		}
 
 		// ctrl-shift-8
-		if (isNote && ev.key == '*' && ev.ctrlKey)
+		if (isNote && ev.key == '*' && ev.ctrlKey || isNote && ev.key == '8' && ev.metaKey && ev.shiftKey)
 		{
 			var have = this.value;
 			var pos  = this.selectionStart;
