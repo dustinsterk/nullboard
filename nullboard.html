@@ -3277,7 +3277,7 @@
 				n.min = $note.hasClass('collapsed');
 
 				//Search for overdue dates and highlight them red via a new class 'overdue'
-				var noteDate = new Date(n.text.split('[').pop().split(']')[0]).toLocaleDateString();
+				var noteDate = new Date(n.text.substring(0, n.text.indexOf(']')).split('[').pop().split(']')[0]).toLocaleDateString();
 				var todayDate = new Date().toLocaleDateString();
 				if (new Date(todayDate).getTime() > new Date(noteDate).getTime()) $note.addClass('overdue');
 
@@ -3389,7 +3389,7 @@
 				setText( $n.find('.text'), n.text );
 				
 				//Search for overdue dates and highlight them red via a new class 'overdue'
-				var noteDate = new Date(n.text.split('[').pop().split(']')[0]).toLocaleDateString();
+				var noteDate = new Date(n.text.substring(0, n.text.indexOf(']')).split('[').pop().split(']')[0]).toLocaleDateString();
 				var todayDate = new Date().toLocaleDateString();
 				if (new Date(todayDate).getTime() > new Date(noteDate).getTime()) $n.addClass('overdue');
 
@@ -4183,7 +4183,7 @@
 				NB.board.title = text_now;
 
 				//Search for overdue dates and highlight them red via a new class 'overdue' (when editing a note)
-				var noteDate = new Date(text_now.split('[').pop().split(']')[0]).toLocaleDateString();
+				var noteDate = new Date(text_now.substring(0, text_now.indexOf(']')).split('[').pop().split(']')[0]).toLocaleDateString();
 				var todayDate = new Date().toLocaleDateString();
 				if (new Date(todayDate).getTime() > new Date(noteDate).getTime())
 					$item.addClass('overdue');
