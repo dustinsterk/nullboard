@@ -473,7 +473,7 @@
 		box-shadow: 0 1px 2px #bbb, 0 0 1px #ddd;
 		position: relative;
 	}
-	
+
 	.board .note.dragging,
 	.board .note.dragging.raw {
 		background: #CED4DA;
@@ -3275,6 +3275,16 @@
 				var n = l.addNote( getText($note.find('.text')) );
 				n.raw = $note.hasClass('raw');
 				n.min = $note.hasClass('collapsed');
+
+				//Search for overdue dates and highlight them red via a new class 'overdue'
+				var noteDate = new Date(n.text.split('[').pop().split(']')[0]).toLocaleDateString();
+				var todayDate = new Date().toLocaleDateString();
+				if (new Date(todayDate).getTime() > new Date(noteDate).getTime()) $note.addClass('overdue');
+
+				//remove the coloring if its in a list with "done" or "complete"
+				var listTitle = $note.closest('.list, .head').find('.text').attr('_text');
+				if (listTitle.toLowerCase().includes("done") || listTitle.toLowerCase().includes("complete"))
+					$note.removeClass('overdue')
 			});
 		});
 
@@ -3377,11 +3387,15 @@
 			list.notes.forEach(function(n){
 				var $n = $ndiv.clone();
 				setText( $n.find('.text'), n.text );
-
+				
 				//Search for overdue dates and highlight them red via a new class 'overdue'
 				var noteDate = new Date(n.text.split('[').pop().split(']')[0]).toLocaleDateString();
 				var todayDate = new Date().toLocaleDateString();
 				if (new Date(todayDate).getTime() > new Date(noteDate).getTime()) $n.addClass('overdue');
+
+				//remove the coloring if its in a list with "done" or "complete"
+				if (list.title.toLowerCase().includes("done") || list.title.toLowerCase().includes("complete"))
+					$n.removeClass('overdue')
 
 				if (n.raw) $n.addClass('raw');
 				if (n.min) $n.addClass('collapsed');
