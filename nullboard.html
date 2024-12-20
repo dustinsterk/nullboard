@@ -4710,6 +4710,7 @@
 			var have = this.value;
 			var want = '[' + new Date().toLocaleDateString() + '] ' + have;
 			$this.val(want);
+			this.selectionStart = this.selectionEnd = this.value.length;
 			return false;
 		}
 
