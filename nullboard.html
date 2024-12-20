@@ -473,7 +473,7 @@
 		box-shadow: 0 1px 2px #bbb, 0 0 1px #ddd;
 		position: relative;
 	}
-
+	
 	.board .note.dragging,
 	.board .note.dragging.raw {
 		background: #CED4DA;
@@ -630,6 +630,11 @@
 	/***/
 	.board .note.collapsed {
 		padding-bottom: 6px;
+	}
+
+	.board .note.overdue {
+		background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgYmFzZVByb2ZpbGU9InRpbnkiIGhlaWdodD0iMjRweCIgaWQ9IkxheWVyXzEiIHZlcnNpb249IjEuMiIgdmlld0JveD0iMCAwIDI0IDI0IiB3aWR0aD0iMjRweCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+PHBhdGggZD0iTTIxLjE3MSwxNS4zOThsLTUuOTEyLTkuODU0QzE0LjQ4Myw0LjI1MSwxMy4yOTYsMy41MTEsMTIsMy41MTFzLTIuNDgzLDAuNzQtMy4yNTksMi4wMzFsLTUuOTEyLDkuODU2ICBjLTAuNzg2LDEuMzA5LTAuODcyLDIuNzA1LTAuMjM1LDMuODNDMy4yMywyMC4zNTQsNC40NzIsMjEsNiwyMWgxMmMxLjUyOCwwLDIuNzctMC42NDYsMy40MDYtMS43NzEgIEMyMi4wNDMsMTguMTA0LDIxLjk1NywxNi43MDgsMjEuMTcxLDE1LjM5OHogTTEyLDE3LjU0OWMtMC44NTQsMC0xLjU1LTAuNjk1LTEuNTUtMS41NDljMC0wLjg1NSwwLjY5NS0xLjU1MSwxLjU1LTEuNTUxICBzMS41NSwwLjY5NiwxLjU1LDEuNTUxQzEzLjU1LDE2Ljg1NCwxMi44NTQsMTcuNTQ5LDEyLDE3LjU0OXogTTEzLjYzMywxMC4xMjVjLTAuMDExLDAuMDMxLTEuNDAxLDMuNDY4LTEuNDAxLDMuNDY4ICBjLTAuMDM4LDAuMDk0LTAuMTMsMC4xNTYtMC4yMzEsMC4xNTZzLTAuMTkzLTAuMDYyLTAuMjMxLTAuMTU2bC0xLjM5MS0zLjQzOEMxMC4yODksOS45MjIsMTAuMjUsOS43MTIsMTAuMjUsOS41ICBjMC0wLjk2NSwwLjc4NS0xLjc1LDEuNzUtMS43NXMxLjc1LDAuNzg1LDEuNzUsMS43NUMxMy43NSw5LjcxMiwxMy43MTEsOS45MjIsMTMuNjMzLDEwLjEyNXoiLz48L3N2Zz4=")no-repeat, linear-gradient(to right, #ffffff, #f5071f);
+		background-position: right;
 	}
 
 	.board .note.collapsed .text,
@@ -3372,6 +3377,12 @@
 			list.notes.forEach(function(n){
 				var $n = $ndiv.clone();
 				setText( $n.find('.text'), n.text );
+
+				//Search for overdue dates and highlight them red via a new class 'overdue'
+				var noteDate = new Date(n.text.split('[').pop().split(']')[0]).toLocaleDateString();
+				var todayDate = new Date().toLocaleDateString();
+				if (new Date(todayDate).getTime() > new Date(noteDate).getTime()) $n.addClass('overdue');
+
 				if (n.raw) $n.addClass('raw');
 				if (n.min) $n.addClass('collapsed');
 				$l_notes.append($n);
@@ -4156,6 +4167,14 @@
 
 			if ($item.parent().hasClass('board'))
 				NB.board.title = text_now;
+
+				//Search for overdue dates and highlight them red via a new class 'overdue' (when editing a note)
+				var noteDate = new Date(text_now.split('[').pop().split(']')[0]).toLocaleDateString();
+				var todayDate = new Date().toLocaleDateString();
+				if (new Date(todayDate).getTime() > new Date(noteDate).getTime())
+					$item.addClass('overdue');
+				else
+					$item.removeClass('overdue');
 
 			updatePageTitle();
 			saveBoard();
