@@ -4722,6 +4722,16 @@
 			return false;
 		}
 
+		// Alt/Option + Right to Indent
+		if (isNote && ev.altKey && ev.key == 'ArrowRight')
+		{
+			var have = this.value;
+			var want = have + '    '; //4 spaces is a TAB
+			$this.val(want);
+			this.selectionStart = this.selectionEnd = this.value.length;
+			return false;
+		}
+
 		// tab
 		if (ev.keyCode == 9)
 		{
