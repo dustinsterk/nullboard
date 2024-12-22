@@ -4737,7 +4737,7 @@
 			return false;
 		}
 
-		// ctrl + D for auto date insert
+		// ctrl + d for auto due date insert (any date in the [] will update the note ui if past due -- defaults to today)
 		if (isNote && ev.ctrlKey && ev.keyCode  == '68')
 		{
 			var have = this.value;
@@ -4747,7 +4747,17 @@
 			return false;
 		}
 
-		// ctrl + X to delete note
+		// ctrl + s for auto stamp date (stamps the current date and will not affect note ui if past due)
+		if (isNote && ev.ctrlKey && ev.keyCode  == '83')
+		{
+			var have = this.value;
+			var want = new Date().toLocaleDateString() + ': ' + have;
+			$this.val(want);
+			this.selectionStart = this.selectionEnd = this.value.length;
+			return false;
+		}
+
+		// ctrl + x to delete note
 		if (isNote && ev.ctrlKey && ev.keyCode  == '88')
 		{
 			stopEditing($this, false, false);
@@ -4755,13 +4765,14 @@
 			return false;
 		}
 
-		// Alt/Option + Right to Indent
+		// alt/option + rightarrow to tab
 		if (isNote && ev.altKey && ev.key == 'ArrowRight')
 		{
 			var have = this.value;
-			var want = have + '    '; //4 spaces is a TAB
+			var pos  = this.selectionStart;
+			var want = have.substr(0, pos) + '\u0009' + have.substr(this.selectionEnd);
 			$this.val(want);
-			this.selectionStart = this.selectionEnd = this.value.length;
+			this.selectionStart = this.selectionEnd = pos + 1;
 			return false;
 		}
 
