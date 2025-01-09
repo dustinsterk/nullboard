@@ -1146,6 +1146,21 @@
 		padding-right: 10px;
 	}
 
+	.overlay > div.keyboardshortcuts {
+		text-align: center;
+		padding: 50px 50px;
+		position: relative;
+	}
+
+	.overlay > div.keyboardshortcuts div {
+		position: absolute;
+		bottom: -30px;
+		left: 0;
+		width: 100%;
+		color: #fff9;
+	}
+
+
 	/***/
 
 	.overlay .backup-conf {
@@ -1561,6 +1576,7 @@
 		<div class=bulk>
 			<a href=# class=view-about>About</a>
 			<a href=# class=view-license>License</a>
+			<a href=# class=view-keyboardshortcuts>Keyboard Shortcuts</a>
 			<a href=https://nullboard.io/changes target=_blank class=view-changes>Changes</a>
 			<a href=https://nullboard.io/github  target=_blank>Github</a>
 			<a href=https://nullboard.io/twitter target=_blank>Twitter</a>
@@ -1675,6 +1691,24 @@
 			<a href=https://nullboard.io target=_blank>https://nullboard.io</a>
 			<div></div>
 		</div>
+
+		<div class=keyboardshortcuts>
+			<h1>Keyboard Shortcuts</h1>
+			<a href=#> [Tab] = Cycles through notes </a> <br>
+			<a href=#> [Control + Enter] = New note below </a> <br>
+			<a href=#> [Control + Shift + Enter] = Note above </a> <br>
+			<a href=#> [Control + D] = Due date stamp </a> <br>
+			<a href=#> [Control + S] = Date stamp </a> <br>
+			<a href=#> [Control + X] = Delete note </a> <br>
+			<a href=#> [Control + *] = • (Windows)</a> <br>
+			<a href=#> [Command + Shift + 8] = • (MacOS)</a> <br>
+			<a href=#> [Alt/Option + R] = Toggle raw mode </a> <br>
+			<a href=#> [Alt/Option + UpArrow] = Collapse </a> <br>
+			<a href=#> [Alt/Option + DownArrow] = Expand </a> <br>
+			<a href=#> [Alt/Option + RightArrow] = Indent </a> <br>
+			<a href=#> [Command] or [CapsLock] = Show links </a> <br>
+		</div>
+
 
 		<div class=license>
 		</div>
@@ -5146,6 +5180,12 @@
 	$('.view-about').click(function(){
 		var $div = $('tt .about').clone();
 		$div.find('div').html(`Version ${NB.codeVersion}`);
+		showOverlay($div);
+		return false;
+	});
+
+	$('.view-keyboardshortcuts').click(function(){
+		var $div = $('tt .keyboardshortcuts').clone();
 		showOverlay($div);
 		return false;
 	});
