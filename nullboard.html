@@ -637,6 +637,10 @@
 		background-position: right;
 	}
 
+	.board .note.strike {
+  	text-decoration: line-through;
+	}
+
 	.board .note.collapsed .text,
 	.note-dragster.collapsed .text {
 		max-height: calc( var(--lh) * 1px );
@@ -3283,8 +3287,12 @@
 
 				//remove the coloring if its in a list with "done" or "complete"
 				var listTitle = $note.closest('.list, .head').find('.text').attr('_text');
-				if (listTitle.toLowerCase().includes("done") || listTitle.toLowerCase().includes("complete"))
-					$note.removeClass('overdue')
+				if (listTitle.toLowerCase().includes("done") || listTitle.toLowerCase().includes("complete")){
+					$note.removeClass('overdue');
+					$note.addClass('strike');
+				}
+				else
+					$note.removeClass('strike');
 			});
 		});
 
@@ -3394,8 +3402,10 @@
 				if (new Date(todayDate).getTime() > new Date(noteDate).getTime()) $n.addClass('overdue');
 
 				//remove the coloring if its in a list with "done" or "complete"
-				if (list.title.toLowerCase().includes("done") || list.title.toLowerCase().includes("complete"))
-					$n.removeClass('overdue')
+				if (list.title.toLowerCase().includes("done") || list.title.toLowerCase().includes("complete")){
+					$n.removeClass('overdue');
+					$n.addClass('strike');
+				}
 
 				if (n.raw) $n.addClass('raw');
 				if (n.min) $n.addClass('collapsed');
