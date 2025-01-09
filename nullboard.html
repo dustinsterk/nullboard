@@ -4260,7 +4260,7 @@
 	function setRevealState(ev)
 	{
 		var raw = ev.originalEvent;
-		var do_reveal = raw.getModifierState && (raw.getModifierState( 'CapsLock' ) || raw.getModifierState( 'Control' ));
+		var do_reveal = raw.getModifierState && (raw.getModifierState( 'CapsLock' ) || raw.getModifierState( 'Control' ) || raw.getModifierState( 'Meta' ));
 
 		if (do_reveal) $('body').addClass('reveal');
 		else           $('body').removeClass('reveal');
